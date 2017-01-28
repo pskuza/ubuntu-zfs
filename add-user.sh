@@ -46,7 +46,7 @@ fi
 OUTFILE="/etc/sudoers.d/${1}"
 if [ ! -f ${OUTFILE} ]; then
   cat >${OUTFILE} <<EOF
-#${1} ALL=NOPASSWD: ALL
-${1} ALL=ALL
+# ${1} ALL=(ALL) NOPASSWD: ALL
+${1} ALL=(ALL) ALL
 EOF
 fi
