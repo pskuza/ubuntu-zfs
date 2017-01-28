@@ -2,9 +2,7 @@
 set -e
 set -x
 
-cd /root/ubuntu-zfs
-
-. ./env.sh
+. ${HOME}/.env.sh
 
 if [ -n "${RSYNC_CACHE_SERVER}" ]; then
   mkdir -p /home/${NEWUSER}/.apt-cache/apt/archives

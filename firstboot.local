@@ -34,6 +34,9 @@ cd /root/ubuntu-zfs
 
 # add user if not exist
 id ${NEWUSER} || ./add-user.sh ${NEWUSER}
+grep -v "GMAIL" ./env.sh > /home/${NEWUSER}/.env.sh
+chown ${NEWUSER}:${NEWUSER} /home/${NEWUSER}/.env.sh
+grep -v "GMAIL" ./env.sh > /root/.env.sh
 
 # forward root mail to user
 OUTFILE="/root/.forward"
@@ -81,8 +84,6 @@ fi
 ./setup-zfs-event-daemon.sh
 
 ./setup-zpool-scrub-all.sh
-
-#./setup-docker.sh
 
 ./backup-originals.sh
 
