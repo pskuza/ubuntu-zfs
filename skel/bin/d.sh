@@ -19,7 +19,6 @@ case "${1}" in
         set -- ${PROCNAME} exec -it "${@}"
     ;;
     gc)
-        set -x
         # remove exited containers
         for i in $(docker ps -q -f status=exited); do
             docker rm ${i}
@@ -34,7 +33,5 @@ case "${1}" in
         set -- ${PROCNAME} "${@}"
     ;;
 esac
-
-set -x
 
 "${@}"
