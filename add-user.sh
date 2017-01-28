@@ -3,11 +3,25 @@ set -e
 set -x
 
 NEWHOME="/home/${1}"
-NEWGROUPS="adm,cdrom,dip,lpadmin,plugdev,sambashare,docker,sudo"
+NEWGROUPS=""
+if [ $(ls -1 /home/ | wc -l) -eq 0 ]; then
+  # first user can be a super user
+  NEWGROUPS="-G adm,cdrom,dip,lpadmin,plugdev,sambashare,docker,sudo"
+  OUTFILE="/etc/sudoers.d/${1}"
+  if [ ! -f ${OUTFILE} ]; then
+    cat >${OUTFILE} <<EOF
+# Uncomment the line below to allow sudo without password
+# THIS IS NOT RECOMMENDED!
+
+# ${1} ALL=(ALL) NOPASSWD: ALL
+EOF
+    chmod o-rwx ${OUTFILE}
+  fi
+fi
 NEWSKEL="/etc/skel"
 
 # password is admin
-useradd -d ${NEWHOME} -G ${NEWGROUPS} -m -k ${NEWSKEL} -p '$6$ZukFU3LL$jGgdl2h6oSt/j06odeBaTPyWCwobck.GQA1DJVwEmYkji1DMDMj3WA66dCBpCer5hpavx8ArScr5lLvS4VXMg/' -s /bin/bash -U ${1}
+useradd -d ${NEWHOME} ${NEWGROUPS} -m -k ${NEWSKEL} -p '$6$ZukFU3LL$jGgdl2h6oSt/j06odeBaTPyWCwobck.GQA1DJVwEmYkji1DMDMj3WA66dCBpCer5hpavx8ArScr5lLvS4VXMg/' -s /bin/bash -U ${1}
 
 #usermod -a -G ${NEWGROUPS} ${1}
 
@@ -41,12 +55,4 @@ if [ -d /root/ubuntu-zfs/skel ]; then
         ;;
     esac
   done
-fi
-
-OUTFILE="/etc/sudoers.d/${1}"
-if [ ! -f ${OUTFILE} ]; then
-  cat >${OUTFILE} <<EOF
-# ${1} ALL=(ALL) NOPASSWD: ALL
-${1} ALL=(ALL) ALL
-EOF
 fi
