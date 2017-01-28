@@ -47,6 +47,7 @@ if [ -d /root/ubuntu-zfs/skel ]; then
   done
 fi
 
+touch /etc/system-setup
 ./change-hostname.sh ${NEWHOSTNAME}
 
 ./setup-network-interfaces.sh
@@ -64,7 +65,6 @@ ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
 
 ln -s /proc/self/mounts /etc/mtab
 
-touch /etc/system-setup
 ./apt-install.sh
 rm /etc/system-setup
 
