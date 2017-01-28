@@ -68,6 +68,8 @@ fi
 
 ./setup-zpool-scrub-all.sh
 
+#./setup-docker.sh
+
 ./backup-originals.sh
 
 #./disable-services.sh
