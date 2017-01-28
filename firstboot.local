@@ -2,6 +2,11 @@
 set -e
 set -x
 
+# if root email is forwarded, send email to root when booting/rebooted
+if [ -f /root/.forward ]; then
+  date | sendmail root || true
+fi
+
 TRIGGER="/etc/firstboot"
 [ ! -f ${TRIGGER} ] && exit 0
 
