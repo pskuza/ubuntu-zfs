@@ -57,7 +57,7 @@ for i in ${PACKAGES}; do
   esac
 done
 
-if [ "${INSTALL_TYPE}" = "desktop" ]; then
+if [ "${INSTALL_TYPE}" = "desktop" -a ! -f /etc/system-setup ]; then
   wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add -
   wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | apt-key add -
   cat >/etc/apt/sources.list.d/virtualbox.list <<EOF

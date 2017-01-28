@@ -64,7 +64,9 @@ ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
 
 ln -s /proc/self/mounts /etc/mtab
 
+touch /etc/system-setup
 ./apt-install.sh
+rm /etc/system-setup
 
 for file in /etc/logrotate.d/* ; do
   if grep -Eq "(^|[^#y])compress" "$file" ; then
