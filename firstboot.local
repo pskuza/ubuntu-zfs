@@ -4,7 +4,16 @@ set -x
 
 # if root email is forwarded, send email to root when booting/rebooted
 if [ -f /root/.forward ]; then
-  date | sendmail root || true
+  OLD_UMASK=$(umask)
+  umask 0077
+  cat >/tmp/boot.txt <<EOF
+Subject: system booted up - $(hostname -f)
+
+system booted up - $(hostname -f)
+time of boot was $(date)
+EOF
+  umask ${OLD_UMASK}
+  cat /tmp/boot.txt | sendmail root || true
 fi
 
 TRIGGER="/etc/firstboot"
