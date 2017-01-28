@@ -126,6 +126,7 @@ if [ -n "${RSYNC_CACHE_SERVER}" ]; then
   install -d -m 755 /var/cache/apt/archives
   rsync -virtP --exclude lock --exclude partial /root/.apt-cache/lists/ /var/lib/apt/lists/ || true
   rsync -virtP --exclude lock --exclude partial /root/.apt-cache/apt/ /var/cache/apt/ || true
+  rm -r /root/.apt-cache
 fi
 
 apt-add-repository universe
