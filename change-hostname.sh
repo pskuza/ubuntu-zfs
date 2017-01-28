@@ -7,7 +7,9 @@ if [ -z "${1}" ]; then
   exit 1
 fi
 
-hostname ${1}
+if [ ! -f /etc/system-setup ]; then
+  hostname ${1}
+fi
 
 OUTFILE="/etc/hostname"
 [ -f ${OUTFILE} -a ! -f ${OUTFILE}.original ] && cp -a ${OUTFILE} ${OUTFILE}.original
