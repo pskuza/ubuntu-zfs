@@ -117,14 +117,15 @@ for i in ${DISKS}; do
 done
 
 if [ -n "${RSYNC_CACHE_SERVER}" ]; then
+  rsync -virtP --exclude lock --exclude partial --exclude .DS_Store ${RSYNC_CACHE_SERVER}/ /root/.apt-cache/ || true
   install -d -m 755 /var/lib
   install -d -m 755 /var/lib/apt
   install -d -m 755 /var/lib/apt/lists
-  rsync -virtP --exclude lock --exclude partial --exclude .DS_Store ${RSYNC_CACHE_SERVER}/lists/ /var/lib/apt/lists/ || true
   install -d -m 755 /var/cache
   install -d -m 755 /var/cache/apt
   install -d -m 755 /var/cache/apt/archives
-  rsync -virtP --exclude lock --exclude partial --exclude .DS_Store ${RSYNC_CACHE_SERVER}/apt/ /var/cache/apt/ || true
+  rsync -virtP --exclude lock --exclude partial /root/.apt-cache/lists/ /var/lib/apt/lists/ || true
+  rsync -virtP --exclude lock --exclude partial /root/.apt-cache/apt/ /var/cache/apt/ || true
 fi
 
 apt-add-repository universe
