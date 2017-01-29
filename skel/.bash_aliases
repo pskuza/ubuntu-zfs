@@ -17,8 +17,18 @@ function whatismydhcpserver() {
     done
   fi
 }
+function firstlastline() {
+  head -n1 "${1}"
+  tail -n1 "${1}"
+}
+function copypubkey2clipboard() {
+  which xsel >/dev/null 2>/dev/null || echo "You need xsel: sudo apt install xsel"
+  [ -e ~/.ssh/id_ed25519.pub ] && cat ~/.ssh/id_ed25519.pub | xsel --clipboard
+  [ -e ~/.ssh/id_rsa.pub ] && cat ~/.ssh/id_rsa.pub | xsel --clipboard
+}
 # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
 function json() { # Syntax-highlight JSON strings or files
+  which pygmentize >/dev/null 2>/dev/null || echo "You need pygmentize: sudo apt install python-pygments"
   if [ -t 0 ]; then # argument
     python -mjson.tool <<< "$*" | pygmentize -l javascript
   else # pipe
@@ -31,28 +41,28 @@ function d() {
   case "${1}" in
     i)
       set -- docker images
-    ;;
+      ;;
     p)
       set -- docker ps -a
-    ;;
+      ;;
     e)
       shift
       set -- docker exec -it "${@}"
-    ;;
+      ;;
     gc)
       # remove exited containers
       for i in $(docker ps -q -f status=exited); do
-          docker rm ${i}
+        docker rm ${i}
       done
       # remove untagged docker images
       for i in $(docker images -q -f dangling=true); do
-          docker rmi ${i}
+        docker rmi ${i}
       done
       exit
-    ;;
+      ;;
     *)
       set -- docker "${@}"
-    ;;
+      ;;
   esac
   "${@}"
 }
