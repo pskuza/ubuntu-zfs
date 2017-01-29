@@ -1,4 +1,5 @@
 [ -f ~/.bash_prompt ] && . ~/.bash_prompt
+alias docker-compose=docker-compose-1.10.0.sh
 alias d=d.sh
 alias g=git
 alias zl="sudo zfs list -oname,lused,usedds,usedchild,usedsnap,used,avail,refer,mountpoint,mounted,canmount"
