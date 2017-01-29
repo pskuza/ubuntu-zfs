@@ -44,6 +44,9 @@ ucarp
 w3m
 zsync
 fail2ban
+golang
+golang-go
+shellcheck
 "
 
 for i in ${PACKAGES}; do
