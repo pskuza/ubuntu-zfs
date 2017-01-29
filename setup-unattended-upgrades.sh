@@ -2,6 +2,9 @@
 set -e
 set -x
 
+MAILTO=$(cat /root/.forward | head -n1)
+[ "x" = "x${MAILTO}" ] && MAILTO="root"
+
 apt install -y unattended-upgrades
 
 OUTFILE="/etc/apt/apt.conf.d/50unattended-upgrades"
@@ -17,10 +20,10 @@ Unattended-Upgrade::MinimalSteps "true";
 EOF
 fi
 if grep -q "^//Unattended-Upgrade::Mail " ${OUTFILE}; then
-  sed -i 's,^//Unattended-Upgrade::Mail .*,Unattended-Upgrade::Mail "root";,' ${OUTFILE}
+  sed -i "s,^//Unattended-Upgrade::Mail .*,Unattended-Upgrade::Mail \"${MAILTO}\";," ${OUTFILE}
 else
   cat >>${OUTFILE} <<EOF
-Unattended-Upgrade::Mail "root";
+Unattended-Upgrade::Mail "${MAILTO}";
 EOF
 fi
 if grep -q "^//Unattended-Upgrade::MailOnlyOnError" ${OUTFILE}; then
