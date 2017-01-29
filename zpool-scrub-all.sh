@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-set -x
+#set -x
 
 # Based on https://gist.github.com/petervanderdoes/bd6660302404ed5b094d
 
