@@ -7,16 +7,17 @@ if [ -z "${1}" ]; then
   exit 1
 fi
 
-OUTFILE="/etc/hostname"
+if [ ! -f /etc/system-setup ]; then
+  hostname ${1}
+fi
 
-hostname ${1}
+OUTFILE="/etc/hostname"
 [ -f ${OUTFILE} -a ! -f ${OUTFILE}.original ] && cp -a ${OUTFILE} ${OUTFILE}.original
 cat >${OUTFILE} <<EOF
 ${1}
 EOF
 
 OUTFILE="/etc/hosts"
-
 [ -f ${OUTFILE} -a ! -f ${OUTFILE}.original ] && cp -a ${OUTFILE} ${OUTFILE}.original
 if grep -q "127.0.1.1" ${OUTFILE}; then
   sed -i "s;127.0.1.1.*;127.0.1.1 ${1};" ${OUTFILE}
