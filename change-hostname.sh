@@ -19,9 +19,8 @@ EOF
 
 OUTFILE="/etc/hosts"
 [ -f ${OUTFILE} -a ! -f ${OUTFILE}.original ] && cp -a ${OUTFILE} ${OUTFILE}.original
-if grep -q "127.0.1.1" ${OUTFILE}; then
-  sed -i "s;127.0.1.1.*;127.0.1.1 ${1};" ${OUTFILE}
-else
+sed -i "s;127.0.1.1.*;127.0.1.1 ${1};" ${OUTFILE}
+if ! grep -q "^[^#]*127.0.1.1" ${OUTFILE}; then
   cat >>${OUTFILE} <<EOF
 127.0.1.1 ${1}
 EOF
