@@ -9,16 +9,16 @@ set -x
 if [ -f /root/.forward ]; then
   MAILTO=$(cat /root/.forward | head -n1)
   [ "x" = "x${MAILTO}" ] && MAILTO="root"
-  OLD_UMASK=$(umask)
-  umask 0077
-  cat >/tmp/boot.txt <<EOF
+  function sendmail_or_true() {
+    sendmail ${MAILTO} || true
+  }
+  sendmail_or_true <<EOF
 Subject: system booted - $(hostname -f)
 
 system booted - $(hostname -f)
 time of boot - $(date)
+IP - $(hostname -I)
 EOF
-  umask ${OLD_UMASK}
-  cat /tmp/boot.txt | sendmail ${MAILTO} || true
 fi
 
 TRIGGER="/etc/firstboot"
