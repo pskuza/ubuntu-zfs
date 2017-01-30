@@ -48,6 +48,7 @@ if ! grep -q '^APT::Periodic::Download-Upgradeable-Packages' ${OUTFILE}; then
   cat >>${OUTFILE} <<EOF
 APT::Periodic::Download-Upgradeable-Packages "1";
 EOF
+fi
 
 OUTFILE="/etc/apt/apt.conf.d/10periodic"
 # this files appears to not exist on INSTALL_TYPE="server"
@@ -58,6 +59,7 @@ if [ -f ${OUTFILE} ]; then
     cat >>${OUTFILE} <<EOF
 APT::Periodic::Download-Upgradeable-Packages "1";
 EOF
+  fi
   sed -i 's,^APT::Periodic::Update-Package-Lists.*,APT::Periodic::Update-Package-Lists "1";,' ${OUTFILE}
   if ! grep -q '^APT::Periodic::Update-Package-Lists' ${OUTFILE}; then
     cat >>${OUTFILE} <<EOF
