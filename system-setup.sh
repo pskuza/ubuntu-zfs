@@ -110,6 +110,10 @@ options zfs zfs_arc_min=536870912
 options zfs zfs_arc_max=1073741824
 EOF
 
+install -m 755 update-issue.local /etc/update-issue.local
+ln -sf /etc/update-issue.local /etc/network/if-down.d/update-issue.local
+ln -sf /etc/update-issue.local /etc/network/if-up.d/update-issue.local
+
 install -m 700 firstboot.local /etc/firstboot.local
 install -m 700 firstboot /etc/init.d/firstboot
 ln -sf /etc/init.d/firstboot /etc/rc2.d/S99firstboot

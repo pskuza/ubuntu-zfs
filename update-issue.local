@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -e
+set -x
+
+PREFIX="IP address:"
+IP="$(hostname -I)"
+
+OUTFILE="/etc/issue"
+sed -i "s,${PREFIX}.*,${PREFIX} ${IP}," ${OUTFILE}
+if ! grep -q "^${PREFIX}" ${OUTFILE}; then
+  grep -v '^$' ${OUTFILE} | tee ${OUTFILE}
+  cat >>${OUTFILE} <<EOF
+${PREFIX} ${IP}
+
+EOF
+fi
