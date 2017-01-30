@@ -7,15 +7,10 @@ alias zpl="sudo zpool list -oname,size,alloc,free,cap,dedup,health,frag,ashift,f
 alias zs="sudo zpool status"
 alias zio="sudo zpool iostat"
 function whatismydhcpserver() {
-  if ps aux | grep -q -o '[/]var/lib/NetworkManager/\S*.lease'; then
-    for i in $(ps aux | grep -o '[/]var/lib/NetworkManager/\S*.lease'); do
-      [ -f ${i} ] && cat ${i} | grep "dhcp-server-identifier"
-    done
-  elif ps aux | grep -q -o '[/]var/lib/dhcp/dhclient\S*.leases'; then
-    for i in $(ps aux | grep -o '[/]var/lib/dhcp/dhclient\S*.leases'); do
-      [ -f ${i} ] && cat ${i} | grep "dhcp-server-identifier"
-    done
-  fi
+  for i in $(ps aux | grep -o '[/]var/lib/NetworkManager/\S*.lease') \
+    $(ps aux | grep -o '[/]var/lib/dhcp/dhclient\S*.leases'); do
+    [ -f ${i} ] && cat ${i} | grep "dhcp-server-identifier"
+  done
 }
 function firstlastline() {
   head -n1 "${1}"
@@ -23,8 +18,10 @@ function firstlastline() {
 }
 function copypubkey2clipboard() {
   which xsel >/dev/null 2>/dev/null || echo "You need xsel: sudo apt install xsel"
-  [ -e ~/.ssh/id_ed25519.pub ] && cat ~/.ssh/id_ed25519.pub | xsel --clipboard
-  [ -e ~/.ssh/id_rsa.pub ] && cat ~/.ssh/id_rsa.pub | xsel --clipboard
+  for i in ~/.ssh/id_ed25519.pub \
+    ~/.ssh/id_rsa.pub; do
+    [ -e ${i} ] && cat ${i} | xsel --clipboard
+  done
 }
 # Usage: json '{"foo":42}' or echo '{"foo":42}' | json
 function json() { # Syntax-highlight JSON strings or files
