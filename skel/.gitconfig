@@ -7,7 +7,7 @@
   s = status -s
   # Show the diff between the latest commit and the current state
   d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
-  # `git di $number` shows the diff between the state `$number` revisions ago and the current state
+  # 'git di $number' shows the diff between the state $number revisions ago and the current state
   di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
   # Pull in remote changes for the current repository and all its submodules
   p = !"git pull; git submodule foreach git pull origin master"
@@ -31,7 +31,7 @@
   whitespace = fix
 
 [core]
-  # Use custom `.gitignore` and `.gitattributes`
+  # Use custom .gitignore and .gitattributes
   excludesfile = ~/.gitignore
   attributesfile = ~/.gitattributes
   # Treat spaces before tabs, lines that are indented with 8 or more spaces, and all kinds of trailing whitespace as an error

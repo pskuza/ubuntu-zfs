@@ -62,7 +62,7 @@ function __prompt_command() {
   # this needs to be first
   local EXITCODE="$?"
   local USER="\[$GREEN\]\u"
-  if [ "`whoami`" = "root" ]; then
+  if [ "$(whoami)" = "root" ]; then
     local USER="\[$ROOT\]\u"
   fi
   local HOST="\[$BLUE\]@\[$CYAN\]\h"
@@ -76,7 +76,7 @@ function __prompt_command() {
   local DEFAULT1="\[$PURPLE\]"
   local DEFAULT2="\[$YELLOW\]"
   local SIGN="%"
-  if [ "`whoami`" = "root" ]; then
+  if [ "$(whoami)" = "root" ]; then
     local SIGN="#"
   fi
   local NEWLINE="\[$RESET\]\n"
@@ -85,4 +85,3 @@ function __prompt_command() {
 
   export PS2="${DEFAULT2}? \[$RESET\]"
 }
-

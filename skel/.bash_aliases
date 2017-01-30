@@ -26,7 +26,7 @@ function copypubkey2clipboard() {
   [ -e ~/.ssh/id_ed25519.pub ] && cat ~/.ssh/id_ed25519.pub | xsel --clipboard
   [ -e ~/.ssh/id_rsa.pub ] && cat ~/.ssh/id_rsa.pub | xsel --clipboard
 }
-# Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
+# Usage: json '{"foo":42}' or echo '{"foo":42}' | json
 function json() { # Syntax-highlight JSON strings or files
   which pygmentize >/dev/null 2>/dev/null || echo "You need pygmentize: sudo apt install python-pygments"
   if [ -t 0 ]; then # argument
@@ -35,7 +35,7 @@ function json() { # Syntax-highlight JSON strings or files
     python -mjson.tool | pygmentize -l javascript
   fi
 }
-# Usage: `ppgep bash`
+# Usage: ppgep bash
 function ppgrep() { pgrep "$@" | xargs --no-run-if-empty ps fp; }
 function d() {
   case "${1}" in
