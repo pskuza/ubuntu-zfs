@@ -2,6 +2,6 @@
 set -e
 set -x
 
-for i in $(ip link show | grep '^[0-9]' | egrep -v '(LOOPBACK|DOWN|NO-CARRIER)' | awk -F: '{print $2}'); do
-  ifconfig ${i} | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}'
+for i in $(/sbin/ip link show | /bin/grep '^[0-9]' | /bin/egrep -v '(LOOPBACK|DOWN|NO-CARRIER)' | /usr/bin/awk -F: '{print $2}'); do
+  /sbin/ifconfig ${i} | /bin/grep 'inet addr' | /usr/bin/awk -F: '{print $2}' | /usr/bin/awk '{print $1}'
 done

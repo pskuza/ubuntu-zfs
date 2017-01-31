@@ -6,10 +6,10 @@ PREFIX="IP address:"
 IP=$(/etc/ip.local)
 
 OUTFILE="/etc/issue"
-sed -i "s,${PREFIX}.*,${PREFIX} ${IP}," ${OUTFILE}
-if ! grep -q "^${PREFIX}" ${OUTFILE}; then
-  grep -v '^$' ${OUTFILE} | tee ${OUTFILE}
-  cat >>${OUTFILE} <<EOF
+/bin/sed -i "s,${PREFIX}.*,${PREFIX} ${IP}," ${OUTFILE}
+if ! /bin/grep -q "^${PREFIX}" ${OUTFILE}; then
+  /bin/grep -v '^$' ${OUTFILE} | /usr/bin/tee ${OUTFILE}
+  /bin/cat >>${OUTFILE} <<EOF
 ${PREFIX} ${IP}
 
 EOF
