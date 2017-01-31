@@ -9,6 +9,7 @@ set -x
 if [ -f /root/.forward ]; then
   MAILTO=$(cat /root/.forward | head -n1)
   [ "x" = "x${MAILTO}" ] && MAILTO="root"
+  IP=$(/etc/ip.local)
   function sendmail_or_true() {
     sendmail ${MAILTO} || true
   }
@@ -17,7 +18,7 @@ Subject: system booted - $(hostname -f)
 
 system booted - $(hostname -f)
 time of boot - $(date)
-IP - $(hostname -I)
+IP - ${IP}
 EOF
 fi
 

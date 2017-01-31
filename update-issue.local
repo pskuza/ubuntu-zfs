@@ -3,7 +3,7 @@ set -e
 set -x
 
 PREFIX="IP address:"
-IP="$(hostname -I)"
+IP=$(/etc/ip.local)
 
 OUTFILE="/etc/issue"
 sed -i "s,${PREFIX}.*,${PREFIX} ${IP}," ${OUTFILE}

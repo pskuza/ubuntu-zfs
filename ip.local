@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+set -x
+
+for i in $(ip link show | grep '^[0-9]' | egrep -v '(LOOPBACK|DOWN|NO-CARRIER)' | awk -F: '{print $2}'); do
+  ifconfig ${i} | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}'
+done
