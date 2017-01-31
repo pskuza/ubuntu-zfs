@@ -150,7 +150,7 @@ qACgtXuTbe2b72sgKdc6gGRKPhLDoEMAmgLwGVN3a4CqewQL+03bqfcKczNH
 -----END PGP PUBLIC KEY BLOCK-----
 EOF
   cat >/etc/apt/sources.list.d/virtualbox.list <<EOF
-deb http://download.virtualbox.org/virtualbox/debian xenial contrib
+deb http://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
 EOF
   if [ -z "${RSYNC_CACHE_SERVER}" ]; then
     apt update
