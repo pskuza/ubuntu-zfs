@@ -2,9 +2,6 @@
 set -e
 set -x
 
-# update pre-login console
-[ -x /etc/update-issue.local ] && /etc/update-issue.local || true
-
 # if root email is forwarded, send email to root when booting/rebooted
 if [ -f /root/.forward ]; then
   MAILTO=$(cat /root/.forward | head -n1)
