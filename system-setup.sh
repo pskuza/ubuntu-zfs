@@ -116,8 +116,8 @@ install -d -m 755 /usr/local/bin
 ln -sf /etc/ip.local /usr/local/bin/ip.local
 
 install -m 755 update-issue.local /etc/update-issue.local
-ln -sf /etc/update-issue.local /etc/network/if-down.d/update-issue.local
-ln -sf /etc/update-issue.local /etc/network/if-up.d/update-issue.local
+ln -sf /etc/update-issue.local /etc/network/if-down.d/update-issue
+ln -sf /etc/update-issue.local /etc/network/if-up.d/update-issue
 
 install -m 700 firstboot.local /etc/firstboot.local
 install -m 700 firstboot /etc/init.d/firstboot
