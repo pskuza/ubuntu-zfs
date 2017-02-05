@@ -161,7 +161,7 @@ xubuntu-desktop
 network-manager-openconnect-gnome
 xsel
 vagrant
-virtualbox-5.1
+virtualbox-5.0
 gimp
 inkscape
 audacity
