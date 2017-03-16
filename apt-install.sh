@@ -47,6 +47,7 @@ fail2ban
 golang
 golang-go
 shellcheck
+python-pygments
 "
 
 for i in ${PACKAGES}; do
