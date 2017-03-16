@@ -1,3 +1,8 @@
+[ ! -e ~/.ssh ] && install -d -m 700 ~/.ssh
+grep -q "HashKnownHosts" ~/.ssh/config || tee -a ~/.ssh/config <<EOF
+HashKnownHosts no
+EOF
+
 alias docker-compose=docker-compose-1.10.0.sh
 alias g=git
 alias zl="sudo zfs list -oname,lused,usedds,usedchild,usedsnap,used,avail,refer,mountpoint,mounted,canmount"
@@ -6,6 +11,7 @@ alias zls="sudo zfs list -t snap -oname,used,avail,refer"
 alias zpl="sudo zpool list -oname,size,alloc,free,cap,dedup,health,frag,ashift,freeing,expandsz,expand,replace,readonly,altroot"
 alias zs="sudo zpool status"
 alias zio="sudo zpool iostat"
+
 function whatismydhcpserver() {
   for i in $(ps aux | grep -o '[/]var/lib/NetworkManager/\S*.lease') \
     $(ps aux | grep -o '[/]var/lib/dhcp/dhclient\S*.leases'); do
@@ -17,7 +23,6 @@ function firstlastline() {
   tail -n1 "${1}"
 }
 function copypubkey2clipboard() {
-  which xsel >/dev/null 2>/dev/null || echo "You need xsel: sudo apt install xsel"
   for i in ~/.ssh/id_ed25519.pub \
     ~/.ssh/id_rsa.pub; do
     [ -e ${i} ] && cat ${i} | xsel --clipboard
@@ -25,7 +30,6 @@ function copypubkey2clipboard() {
 }
 # Usage: json '{"foo":42}' or echo '{"foo":42}' | json
 function json() { # Syntax-highlight JSON strings or files
-  which pygmentize >/dev/null 2>/dev/null || echo "You need pygmentize: sudo apt install python-pygments"
   if [ -t 0 ]; then # argument
     python -mjson.tool <<< "$*" | pygmentize -l javascript
   else # pipe
