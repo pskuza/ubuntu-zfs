@@ -2,7 +2,7 @@
 set -e
 set -x
 
-which docker || exit 0
+which docker || sudo apt install -y docker.io
 
 DOCKER_IMAGES="
 rancher/server
