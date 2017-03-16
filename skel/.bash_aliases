@@ -55,10 +55,34 @@ function d() {
       for i in $(docker images -q -f dangling=true); do
         docker rmi ${i}
       done
-      exit
+      set --
       ;;
     *)
       set -- docker "${@}"
+      ;;
+  esac
+  "${@}"
+}
+function v() {
+  case "${1}" in
+    i)
+      set -- vagrant box list
+      ;;
+    p)
+      set -- vagrant status
+      ;;
+    e)
+      shift
+      set -- vagrant ssh -c "${@}"
+      ;;
+    s)
+      set -- vagrant ssh
+      ;;
+    gc)
+      set -- vagrant destroy -f
+      ;;
+    *)
+      set -- vagrant "${@}"
       ;;
   esac
   "${@}"
