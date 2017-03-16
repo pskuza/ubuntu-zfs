@@ -2,10 +2,13 @@
 set -e
 set -x
 
+VERSION=0.12.3
+
 which vagrant || sudo apt install -y vagrant
 
 if [ ! -e /usr/bin/packer ]; then
-  curl -L https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip > ~/packer_0.12.3_linux_amd64.zip
-  unzip ~/packer_0.12.3_linux_amd64.zip
+  FILE=packer_${VERSION}_linux_amd64.zip
+  [ ! -e ~/${FILE} ] && curl -o ~/${FILE} -L https://releases.hashicorp.com/packer/${VERSION}/${FILE}
+  unzip ~/${FILE}
   sudo mv packer /usr/bin/packer
 fi
