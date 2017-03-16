@@ -5,6 +5,7 @@ set -x
 sudo apt install -y libxcb-xtest0
 
 if ! which zoom; then
-    [ ! -e ~/zoom_amd64.deb ] && curl -o ~/zoom_amd64.deb -L https://zoom.us/client/latest/zoom_amd64.deb
-    sudo dpkg -i ~/zoom_amd64.deb
+  FILE=zoom_amd64.deb
+  [ ! -e ~/${FILE} ] && curl -o ~/${FILE} -L https://zoom.us/client/latest/${FILE}
+  sudo dpkg -i ~/${FILE}
 fi
