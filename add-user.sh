@@ -2,18 +2,19 @@
 set -e
 set -x
 
-NEWHOME="/home/${1}"
+NEWUSER="${1}"
+NEWHOME="/home/${NEWUSER}"
 NEWGROUPS=""
 if [ $(ls -1 /home/ | wc -l) -eq 0 ]; then
   # first user can be a super user
   NEWGROUPS="-G adm,cdrom,dip,lpadmin,plugdev,sambashare,docker,sudo"
-  OUTFILE="/etc/sudoers.d/${1}"
+  OUTFILE="/etc/sudoers.d/${NEWUSER}"
   if [ ! -f ${OUTFILE} ]; then
     cat >${OUTFILE} <<EOF
 # Uncomment the line below to allow sudo without password
 # THIS IS NOT RECOMMENDED!
 
-# ${1} ALL=(ALL) NOPASSWD: ALL
+# ${NEWUSER} ALL=(ALL) NOPASSWD: ALL
 EOF
     chmod o-rwx ${OUTFILE}
   fi
@@ -21,18 +22,18 @@ fi
 NEWSKEL="/etc/skel"
 
 # password is admin
-useradd -d ${NEWHOME} ${NEWGROUPS} -m -k ${NEWSKEL} -p '$6$ZukFU3LL$jGgdl2h6oSt/j06odeBaTPyWCwobck.GQA1DJVwEmYkji1DMDMj3WA66dCBpCer5hpavx8ArScr5lLvS4VXMg/' -s /bin/bash -U ${1}
+useradd -d ${NEWHOME} ${NEWGROUPS} -m -k ${NEWSKEL} -p '$6$ZukFU3LL$jGgdl2h6oSt/j06odeBaTPyWCwobck.GQA1DJVwEmYkji1DMDMj3WA66dCBpCer5hpavx8ArScr5lLvS4VXMg/' -s /bin/bash -U ${NEWUSER}
 
-#usermod -a -G ${NEWGROUPS} ${1}
+#usermod -a -G ${NEWGROUPS} ${NEWUSER}
 
-install -d -m 700 -o ${1} -g ${1} ${NEWHOME}/.vim
-install -d -m 700 -o ${1} -g ${1} ${NEWHOME}/.vim/backups
-install -d -m 700 -o ${1} -g ${1} ${NEWHOME}/.vim/swaps
-install -d -m 700 -o ${1} -g ${1} ${NEWHOME}/.vim/undo
+install -d -m 700 -o ${NEWUSER} -g ${NEWUSER} ${NEWHOME}/.vim
+install -d -m 700 -o ${NEWUSER} -g ${NEWUSER} ${NEWHOME}/.vim/backups
+install -d -m 700 -o ${NEWUSER} -g ${NEWUSER} ${NEWHOME}/.vim/swaps
+install -d -m 700 -o ${NEWUSER} -g ${NEWUSER} ${NEWHOME}/.vim/undo
 
 mv ${NEWHOME} ${NEWHOME}.original
 zfs create system${NEWHOME}
-chown -R ${1}:${1} ${NEWHOME}
+chown -R ${NEWUSER}:${NEWUSER} ${NEWHOME}
 find ${NEWHOME}.original -maxdepth 1 -mindepth 1 -exec mv {} ${NEWHOME} \;
 rmdir ${NEWHOME}.original
 
@@ -45,10 +46,10 @@ if [ -d /root/ubuntu-zfs/skel ]; then
       *)
         OUTFILE="${NEWHOME}/${i##*/}"
         [ -f ${OUTFILE} -a ! -f ${OUTFILE}.original ] && cp -a ${OUTFILE} ${OUTFILE}.original
-        [ -f ${i} ] && install -m 600 -o ${1} -g ${1} ${i} ${OUTFILE}
+        [ -f ${i} ] && install -m 600 -o ${NEWUSER} -g ${NEWUSER} ${i} ${OUTFILE}
         if [ -d ${i} ]; then
           cp -a ${i} ${NEWHOME}
-          chown -R ${1}:${1} ${OUTFILE}
+          chown -R ${NEWUSER}:${NEWUSER} ${OUTFILE}
           # remove group and other permissions
           find ${OUTFILE} -exec chmod go-rwx {} \;
         fi
