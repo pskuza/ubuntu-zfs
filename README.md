@@ -14,6 +14,5 @@ vi env.sh
 ## BACKUP APT CACHE
 
 ```
-cd ubuntu-zfs
-./backup-apt-cache.sh
+backup-apt-cache.sh
 ```
