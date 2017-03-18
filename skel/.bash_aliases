@@ -17,9 +17,12 @@ alias zpl="sudo zpool list -oname,size,alloc,free,cap,dedup,health,frag,ashift,f
 alias zs="sudo zpool status"
 alias zio="sudo zpool iostat"
 
+function t() {
+  tmux attach || tmux
+}
 function whatismydhcpserver() {
   for i in $(ps aux | grep -o '[/]var/lib/NetworkManager/\S*.lease') \
-    $(ps aux | grep -o '[/]var/lib/dhcp/dhclient\S*.leases'); do
+           $(ps aux | grep -o '[/]var/lib/dhcp/dhclient\S*.leases') ; do
     [ -f ${i} ] && cat ${i} | grep "dhcp-server-identifier"
   done
 }
@@ -29,7 +32,7 @@ function firstlastline() {
 }
 function copypubkey2clipboard() {
   for i in ~/.ssh/id_ed25519.pub \
-    ~/.ssh/id_rsa.pub; do
+           ~/.ssh/id_rsa.pub ; do
     [ -e ${i} ] && cat ${i} | xsel --clipboard
   done
 }
