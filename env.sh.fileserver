@@ -31,5 +31,5 @@ export ZFS_DATA_POOL="userdata"
 #export ZFS_DATA_ZRAID="mirror"
 
 # don't touch below
-export UBUNTU_CODENAME="xenial"
+export UBUNTU_CODENAME="$(lsb_release -c -s)"
 export DEBIAN_FRONTEND=noninteractive
