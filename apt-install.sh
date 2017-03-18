@@ -150,8 +150,43 @@ qACgtXuTbe2b72sgKdc6gGRKPhLDoEMAmgLwGVN3a4CqewQL+03bqfcKczNH
 =19g1
 -----END PGP PUBLIC KEY BLOCK-----
 EOF
+  #wget -q https://atlassian.artifactoryonline.com/atlassian/api/gpg/key/public -O- | apt-key add -
+  apt-key add - <<EOF
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1
+
+mQINBFa1An8BEADXJp5KSnr0EDIerHa2KFtrStWQhxiAiLHXPbp+U3OZpLvQhiMC
+il017tRb4OBVzuJ/GEvKOt3cgcf50iiFG6HU3qrTTXAuFLQUArxQZDTosBjhMGgQ
+WSki1lFheDcrtx2K4B9OxetpfC098zG8fWFeOXxPAkw/3hV3JQ9XDyEn32y8SSHY
+P8d0BoYsuXVqO4mMWvebGXGHesEqWkBnFL3FwOV9DRibAk2TkLi/YVGEprAu5A3T
+hLdMrHUyjnbMpUZKoU9l/XWY9o7n2rz020M7eKhoycrbAYHUbrP0AL1cUeA5TjX3
+IUvfcvV5vHlOf4nX6FA2RXxklWRW/ihzmrveMBVmNk+r0i8sxvTtg2BA/xzFYiz2
+v4/vJ8fLsaMyVLY1bsdbVPgrF5kXtG2uGfsF5eY860/TifBcQWhPov7OnVRvwqCJ
+jEy5WoiyUSq3pQp46FhwktVieQ/YE/8Yyg6F8jgtZnBr/AkLmkJNkAzuU6YliZ6v
+3K+PZo0Vfei5n1uRDDVkz25TFEoufrrEd4oG/JubEMnhb+7PMrD48+Ffc3Kl+iOx
+Eg08cqy1Pl8IxSi+wjl+wszZutXMshMeQOB971VLzYuC66YP8qNnNccJG6YEzrEQ
+hLdwPqtRhzkItcJwsx4qIXrj0+BF/L+6z74HbVqqDzUYLSUD/7TdKNZO2QARAQAB
+tCdIaXBjaGF0IE9wcyA8aGlwY2hhdC1vcHNAYXRsYXNzaWFuLmNvbT6JAjgEEwEC
+ACIFAla1An8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEOulnlPMZAkd
+FGQP/0wvWjS6Cu4DTHI4xc9mE6r0CMPScdYle5M5CyCL4XNrJT8DjhmankB+D3SQ
+nwQHlN2Er3SaQ6uY5zuWWpb3eGHU3/vNwHsN4fE0QPs6TEnbD6LI6sarax2AFBiT
+g5MRWBYvhaumwhKqWf/rriRZOsftF6VGTWFLwYO2gJuMvisD+aIBzCfG4Q0/DPyr
+I5uK0SWenN1bBn66Na+1kwKRvKtK1OtdfBpyvO7Vc1qvwwjVcFHEesxpx39+nM+S
+hvOYEwggCL8DLqCRaOf/OeTZYeMQjNkMdOGUZGSYFAmPxhj7Sh30tcI9P8DGqDs+
+U1+cXPTSJmROjdxEbxH91W58/Gp1sPxNkmmaPWjj7d3QncFVMM6qgFWUlScIOKtM
+KJoGx8E0ReJ3W6L/PyzvNTB+gkKOtj2X+aS1dwHpuX7yi5k18gR443IqTpOEsrlH
+omEYJntEVTrxJO1o66ZBg6nIusX0tYBty0C05h/Pn2gfNSxZCAlNNehKlPzEeiuq
+C5hPB0QhX9MxC9tcQVP8Qp86LrNzaMBFUGl0rGkMJOIT3cInOfCvDqoayOx7MOR4
+LLicYKlTIaEwI+D/ADasMcOi15GRG9TZ00/z7Ks7WU3pbLF0hzFlAln1QmWd5zTY
+p0ZKGzWJXUD7AeZkSKf7+J4+20S6Xs6lW/4C+RmvGzUwUJOo
+=M8x+
+-----END PGP PUBLIC KEY BLOCK-----
+EOF
   cat >/etc/apt/sources.list.d/virtualbox.list <<EOF
 deb http://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
+EOF
+  cat >/etc/apt/sources.list.d/atlassian-hipchat4.list <<EOF
+deb https://atlassian.artifactoryonline.com/atlassian/hipchat-apt-client ${UBUNTU_CODENAME} main
 EOF
   if [ -z "${RSYNC_CACHE_SERVER}" ]; then
     apt update
@@ -168,6 +203,7 @@ inkscape
 audacity
 filezilla
 chromium-browser
+hipchat4
 "
   for i in ${PACKAGES}; do
     case "${i}" in
