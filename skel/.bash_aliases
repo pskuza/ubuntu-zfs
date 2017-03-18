@@ -3,8 +3,13 @@ grep -q "HashKnownHosts" ~/.ssh/config || tee -a ~/.ssh/config <<EOF
 HashKnownHosts no
 EOF
 
-alias docker-compose=docker-compose-1.10.0.sh
+alias docker-compose=docker-compose-1.11.2.sh
 alias g=git
+alias iftop="sudo /usr/sbin/iftop -nBP"
+alias rsynca="rsync -viaP"
+alias rsyncc="rsync -virchlmP"
+alias rsynct="rsync -virthlmP"
+
 alias zl="sudo zfs list -oname,lused,usedds,usedchild,usedsnap,used,avail,refer,mountpoint,mounted,canmount"
 alias zll="sudo zfs list -oname,dedup,compress,compressratio,checksum,sync,quota,copies,atime,devices,exec,rdonly,setuid,xattr,acltype,aclinherit"
 alias zls="sudo zfs list -t snap -oname,used,avail,refer"
