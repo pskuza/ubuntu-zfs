@@ -2,6 +2,9 @@
 set -e
 set -x
 
+#exit if no desktop installed
+dpkg -l | grep ubuntu-desktop || exit
+
 if ! which atom; then
   FILE=atom.deb
   mkdir -p ~/.apt-cache
