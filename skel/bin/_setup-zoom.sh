@@ -2,6 +2,9 @@
 set -e
 set -x
 
+#exit if no desktop installed
+dpkg -l | grep ubuntu-desktop || exit
+
 sudo apt install -y libxcb-xtest0
 
 if ! which zoom; then
