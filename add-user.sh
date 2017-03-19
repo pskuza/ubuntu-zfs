@@ -11,10 +11,10 @@ if [ $(ls -1 /home/ | wc -l) -eq 0 ]; then
   OUTFILE="/etc/sudoers.d/${NEWUSER}"
   if [ ! -f ${OUTFILE} ]; then
     cat >${OUTFILE} <<EOF
-# Uncomment the line below to allow sudo without password
-# THIS IS NOT RECOMMENDED!
-
-# ${NEWUSER} ALL=(ALL) NOPASSWD: ALL
+## Uncomment the line below to allow sudo without password
+## THIS IS NOT RECOMMENDED!
+#
+#${NEWUSER} ALL=(ALL) NOPASSWD: ALL
 EOF
     chmod o-rwx ${OUTFILE}
   fi
