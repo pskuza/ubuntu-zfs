@@ -57,3 +57,8 @@ if [ -d /root/ubuntu-zfs/skel ]; then
     esac
   done
 fi
+
+if [ -e /root/.apt-cache ]; then
+  mv /root/.apt-cache ${NEWHOME}/.apt-cache
+  chown -R ${NEWUSER}:${NEWUSER} ${NEWHOME}/.apt-cache
+fi
