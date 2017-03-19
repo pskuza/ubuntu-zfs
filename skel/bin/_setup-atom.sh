@@ -3,7 +3,7 @@ set -e
 set -x
 
 #exit if no desktop installed
-dpkg -l | grep ubuntu-desktop || exit
+dpkg -l | grep ubuntu-desktop || exit 0
 
 if ! which atom; then
   FILE=atom.deb
