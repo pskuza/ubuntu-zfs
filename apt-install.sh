@@ -17,7 +17,7 @@ deb-src http://archive.ubuntu.com/ubuntu ${UBUNTU_CODENAME} main universe
 deb-src http://archive.ubuntu.com/ubuntu ${UBUNTU_CODENAME}-updates main universe
 deb-src http://security.ubuntu.com/ubuntu ${UBUNTU_CODENAME}-security main universe
 EOF
-add-apt-repository ppa:ubuntu-lxc/lxd-stable
+add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
 cat >/etc/apt/sources.list.d/virtualbox.list <<EOF
 deb http://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
 EOF
