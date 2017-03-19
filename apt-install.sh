@@ -17,53 +17,12 @@ deb-src http://archive.ubuntu.com/ubuntu ${UBUNTU_CODENAME} main universe
 deb-src http://archive.ubuntu.com/ubuntu ${UBUNTU_CODENAME}-updates main universe
 deb-src http://security.ubuntu.com/ubuntu ${UBUNTU_CODENAME}-security main universe
 EOF
-if [ -z "${RSYNC_CACHE_SERVER}" ]; then
-  apt update
-fi
-
-apt dist-upgrade -y
-
-PACKAGES="
-ubuntu-minimal
-linux-image-generic
-debootstrap gdisk zfs-initramfs mdadm
-grub-pc
-openssh-server
-rsync
-git
-curl
-wget
-ubuntu-standard
-nullmailer
-docker.io
-iftop
-pv
-tmux
-build-essential
-ucarp
-w3m
-zsync
-fail2ban
-golang
-golang-go
-shellcheck
-python-pygments
-"
-
-for i in ${PACKAGES}; do
-  case "${i}" in
-    linux-image-generic)
-      apt install -y --no-install-recommends ${i}
-      ;;
-    *)
-      apt install -y ${i}
-      ;;
-  esac
-done
-
-if [ "${INSTALL_TYPE}" = "desktop" -a ! -f /etc/system-setup ]; then
-  #wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add -
-  apt-key add - <<EOF
+add-apt-repository ppa:ubuntu-lxc/lxd-stable
+cat >/etc/apt/sources.list.d/virtualbox.list <<EOF
+deb http://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
+EOF
+#wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add -
+apt-key add - <<EOF
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.12 (GNU/Linux)
 
@@ -117,8 +76,8 @@ Y3B83Y34PxuSIq2kokIGo8JhqfqPB/ohtTLHg/o9RhP8xmfvALRD
 =Rv7/
 -----END PGP PUBLIC KEY BLOCK-----
 EOF
-  #wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | apt-key add -
-  apt-key add - <<EOF
+#wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | apt-key add -
+apt-key add - <<EOF
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.9 (GNU/Linux)
 
@@ -149,6 +108,98 @@ o8Mz0KuFpClp9B7c78+QBzTbiEkEGBECAAkFAkvy0LACGwwACgkQVEIqS5irUTnq
 qACgtXuTbe2b72sgKdc6gGRKPhLDoEMAmgLwGVN3a4CqewQL+03bqfcKczNH
 =19g1
 -----END PGP PUBLIC KEY BLOCK-----
+EOF
+if [ -z "${RSYNC_CACHE_SERVER}" ]; then
+  apt update
+fi
+
+apt dist-upgrade -y
+
+PACKAGES="
+ubuntu-minimal
+linux-image-generic
+debootstrap gdisk zfs-initramfs mdadm
+grub-pc
+openssh-server
+rsync
+git
+curl
+wget
+ubuntu-standard
+nullmailer
+docker.io
+iftop
+pv
+tmux
+build-essential
+ucarp
+w3m
+zsync
+fail2ban
+shellcheck
+python-pygments
+vagrant
+virtualbox-5.0
+golang
+"
+
+for i in ${PACKAGES}; do
+  case "${i}" in
+    linux-image-generic)
+      apt install -y --no-install-recommends ${i}
+      ;;
+    *)
+      apt install -y ${i}
+      ;;
+  esac
+done
+
+if [ "${INSTALL_TYPE}" = "desktop" -a ! -f /etc/system-setup ]; then
+  cat >/etc/apt/sources.list.d/spotify.list <<EOF
+deb http://repository.spotify.com stable non-free
+EOF
+  # add spotify signing key
+  #apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
+  apt-key add - <<EOF
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1
+
+mQINBFVm7dMBEADGcdfhx/pjGtiVhsyXH4r8TrFgsGyHEsOWaYeU2JL1tEi+YI1q
+jpExb2TeTReDTiGEFFMWgPTS0y5HQGm+2P3XGv0pShvgg9A6FWZmZmT+tymA2zvN
+rdpmKdhScZ52StPLFz9wsmXHG4DIKVuzgzuV4YxJ1i2wFtoVp8zT9ORu1BxLZ0IB
+wTvLRbaQGZ8DwXVAHak9cK91Ujj6gJ1MJPohZLHH2BjrOjEl/I36jFUjK0AadznN
+zo08lLAi94qjtheJtuJD3IEOAlCkaknz6vbEFpszLGlLD7GENMzJk46ObuJuvW5R
+2PkOU2U8jS0GaUD9Ou/SIdJ6vIdvjSs/ettc2wwdnbSdadvjovIfvEBRsEVMpRG+
+42B+DZpJbS9pCb8sxTJtnUy1YViZmG0++FhPGGPGzQYhC/Mz07lsx5PkC7Kka2FC
+Nmhauxw5deO43Ck181oQVdbt/VxmChzchUJ6N6/uOV5JKm7B9UnDNyqUYv6goeLv
+FnT9ag+FCxiroTrq+dINr6d+XT/cI9WtSagfmhcekwhyfcCgYsFemAOckRifjEGF
+MksQlnWkGwWNoKe91KBxjgaJaazSbZRk0dFPSSmfKWaxuTwkR74pbaueyijnQJgH
+AjfCyzQe9miN9DitON5l6T2gVAN3Jn1QQmV7tt5GB7amcHf5/b0oYmmRPQARAQAB
+tD5TcG90aWZ5IFB1YmxpYyBSZXBvc2l0b3J5IFNpZ25pbmcgS2V5IDxvcGVyYXRp
+b25zQHNwb3RpZnkuY29tPokBHAQQAQIABgUCVW3SWAAKCRAILM7flFWPWUk5B/wO
+qqD9/2Do9PyPucfUs/rrP4+M8iJLpv8U+bX/qHryTTWfpk3YuKL4+c8saHySK4HL
+Gyxd3mdo1XMF351KrxLQvWMSSPbIRV9cSqZROOVn2ya+3xpWk6t1omLzxtBBMOC4
+B5qAfWhog7ioAmzQNY5NUz5mqXVP5WbgR/G+GOszzuQUgeu1Xxxzir3JqWQ0g8mp
+3EtX7dB76zxkkuTYbeVDPOvtJPn/38d3oSLUI1QJnL8pjREHeE8fO5mWncJmyZNh
+kYd+rfnPk+W0ZkTr59QBIEOGMTmATtNh+x1mo5e2dW91Oj4jEWipMUouLGqbo/gJ
+uHFMt8RWBmy+zFYUEPYHiQI+BBMBAgAoAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIe
+AQIXgAUCVWg3sAUJBK3QLQAKCRATsA8f0sGYhl6hEACJ1CrYjaflKKR2Znuh0g0g
+M89NAwO8AA4+SpkWHagdGLo7OV/rGB3mlwD4mhaa8CbEnBT/za3jFnT19KsYQWiT
+21oOX/eo47ITbAspjDZTiXLinyAcOJn+q/EFkelROzbVaxZHi6SN5kCEd8KAew8h
+2jZf8wWqaYVyMPNSqotUhin6YjWsu57BGixVThoMmxx3udsGAiYqt8buAANWbkUp
+hrvtJuNCKkGym7psnS4Q5EnHPfvbYii9iAfBswX6nZQlehva7aToN73elYL3opCA
+rAxKAFx70bpGxb7T16KjKzkKS0a4iQ7xdbBGylb+AE/RhICa+RM5tma2YnB3pZvF
+M/n0BNeYReCgvxkl1rqrB1KxmFHfGqjLkb2YAZ5RYnP3gEt+nbEWxL8FO0Bhakn1
+RB3NqTC2oiQAUfh+66yUawUNkHRHlGAEzZAxvpfnf0hSJp734lyQZJs+zqXUAXa2
+UmEZ6se62PgZRQIz5IbAVxSiGz4xIZs1yS36N2vZ34LFJa9o/HVk5OfpqZM0zjWw
+QIQN2b4OBizL5r4h2Mi5BHUEyYMsDZn+txoJjPPYLolRlf31sqi5MJE+cbOAXSn8
+PC9k4i+hrbfqFzts47+6xgCH3aXbhUkJh1CH/0/qEXfTPYTyayijm4rdvSBczzEO
+RWGT5E38oV9h1eUqp4nVPg==
+=/qip
+-----END PGP PUBLIC KEY BLOCK-----
+EOF
+  cat >/etc/apt/sources.list.d/atlassian-hipchat4.list <<EOF
+deb https://atlassian.artifactoryonline.com/atlassian/hipchat-apt-client ${UBUNTU_CODENAME} main
 EOF
   #wget -q https://atlassian.artifactoryonline.com/atlassian/api/gpg/key/public -O- | apt-key add -
   apt-key add - <<EOF
@@ -182,12 +233,6 @@ p0ZKGzWJXUD7AeZkSKf7+J4+20S6Xs6lW/4C+RmvGzUwUJOo
 =M8x+
 -----END PGP PUBLIC KEY BLOCK-----
 EOF
-  cat >/etc/apt/sources.list.d/virtualbox.list <<EOF
-deb http://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
-EOF
-  cat >/etc/apt/sources.list.d/atlassian-hipchat4.list <<EOF
-deb https://atlassian.artifactoryonline.com/atlassian/hipchat-apt-client ${UBUNTU_CODENAME} main
-EOF
   if [ -z "${RSYNC_CACHE_SERVER}" ]; then
     apt update
   fi
@@ -196,14 +241,14 @@ dbus
 xubuntu-desktop
 network-manager-openconnect-gnome
 xsel
-vagrant
-virtualbox-5.0
 gimp
 inkscape
 audacity
 filezilla
 chromium-browser
+spotify-client
 hipchat4
+libxcb-xtest0
 "
   for i in ${PACKAGES}; do
     case "${i}" in
