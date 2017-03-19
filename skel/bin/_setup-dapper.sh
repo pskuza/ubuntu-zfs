@@ -2,7 +2,7 @@
 set -e
 set -x
 
-which go || sudo apt install -y golang golang-go
+which go || _setup-golang.sh || sudo apt install -y golang golang-go
 which git || sudo apt install -y git
 
 if [ ! -e /usr/bin/dapper ]; then

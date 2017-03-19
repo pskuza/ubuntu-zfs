@@ -8,7 +8,8 @@ which vagrant || sudo apt install -y vagrant
 
 if [ ! -e /usr/bin/packer ]; then
   FILE=packer_${VERSION}_linux_amd64.zip
-  [ ! -e ~/${FILE} ] && curl -o ~/${FILE} -L https://releases.hashicorp.com/packer/${VERSION}/${FILE}
-  unzip ~/${FILE}
+  mkdir -p ~/.apt-cache
+  [ ! -e ~/.apt-cache/${FILE} ] && curl -o ~/.apt-cache/${FILE} -L https://releases.hashicorp.com/packer/${VERSION}/${FILE}
+  unzip ~/.apt-cache/${FILE}
   sudo mv packer /usr/bin/packer
 fi

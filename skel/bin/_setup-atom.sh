@@ -4,8 +4,9 @@ set -x
 
 if ! which atom; then
   FILE=atom.deb
-  [ ! -e ~/${FILE} ] && curl -o ~/${FILE} -L https://atom.io/download/deb
-  sudo dpkg -i ~/${FILE}
+  mkdir -p ~/.apt-cache
+  [ ! -e ~/.apt-cache/${FILE} ] && curl -o ~/.apt-cache/${FILE} -L https://atom.io/download/deb
+  sudo dpkg -i ~/.apt-cache/${FILE}
 fi
 
 which shellcheck || sudo apt install -y shellcheck
