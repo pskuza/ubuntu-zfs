@@ -15,8 +15,6 @@ which git || sudo apt install -y git
 apm install linter
 apm install linter-shellcheck
 
-export GOPATH=${HOME}/go
-PATH="${PATH}:${GOROOT}/bin:${GOPATH}/bin:/usr/local/go/bin"
 go get -u github.com/mvdan/sh/cmd/shfmt
 
 apm install format-shell
