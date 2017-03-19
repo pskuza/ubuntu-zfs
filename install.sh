@@ -126,7 +126,8 @@ if [ -n "${RSYNC_CACHE_SERVER}" ]; then
   install -d -m 755 /var/cache/apt/archives
   rsync -virtP --exclude lock --exclude partial /root/.apt-cache/lists/ /var/lib/apt/lists/ || true
   rsync -virtP --exclude lock --exclude partial /root/.apt-cache/apt/ /var/cache/apt/ || true
-  rm -r /root/.apt-cache
+  rm -fr /root/.apt-cache/lists
+  rm -fr /root/.apt-cache/apt
 fi
 
 apt-add-repository universe
@@ -213,6 +214,7 @@ install -d -m 755 ${TARGET}/var/cache
 install -d -m 755 ${TARGET}/var/cache/apt
 install -d -m 755 ${TARGET}/var/cache/apt/archives
 rsync -virtP --exclude lock --exclude partial /var/cache/apt/ ${TARGET}/var/cache/apt/ || true
+[ -e /root/.apt-cache ] && mv /root/.apt-cache ${TARGET}/root/.apt-cache
 
 debootstrap ${UBUNTU_CODENAME} ${TARGET}
 zfs set devices=off ${ZFS_ROOT_POOL}
