@@ -11,8 +11,8 @@ vi env.sh
 ./install.sh
 ```
 
-## BACKUP APT CACHE
+Then on first login:
 
 ```
-backup-apt-cache.sh
+_firstlogin.sh
 ```
