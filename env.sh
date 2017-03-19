@@ -5,7 +5,7 @@ export NEWUSER=user
 export NEWHOSTNAME=temp.local
 
 # uncomment if you have a cache folder or server
-export RSYNC_CACHE_SERVER=user@192.168.255.57:./.apt-cache
+#export RSYNC_CACHE_SERVER=user@192.168.255.57:./.apt-cache
 
 # for nullmailer, it is advised to not use your personal account
 # but create a separate account just for system status emails
