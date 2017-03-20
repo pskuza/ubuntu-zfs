@@ -14,7 +14,7 @@ function start_dtmpfs() {
   # mount tmpfs
   [ ! -e ${TMPFS} ] && sudo mkdir -p "${TMPFS}"
   mount | grep "${TMPFS}" || sudo mount -t tmpfs tmpfs "${TMPFS}"
-  mount | grep "${TMPFS}" || exit 1
+  mount | grep "${TMPFS}" | grep "tmpfs" || exit 1
   # copy docker files from disk to tmpfs
   [ -e ${DISKMOUNT} ] && sudo rsync -vialP ${DISKMOUNT}/ ${TMPFS}/
   sudo service docker start
@@ -24,8 +24,8 @@ function stop_dtmpfs() {
   # Stop using tmpfs for docker, lose all containers and images
   sudo service docker stop
   # unmount tmpfs
-  mount | grep "${TMPFS}" || sudo umount "${TMPFS}"
-  mount | grep "${TMPFS}" && exit 1
+  mount | grep "${TMPFS}" | grep "tmpfs" && sudo umount "${TMPFS}"
+  mount | grep "${TMPFS}" | grep "tmpfs" && exit 1
   # if using zfs, set mountpoint
   sudo zfs list ${ZFSSET} && sudo zfs set mountpoint=${TMPFS} ${ZFSSET}
   sudo service docker start
