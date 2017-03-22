@@ -181,10 +181,10 @@ zfs create                 -o setuid=off              ${ZFS_ROOT_POOL}/home
 zfs create -o mountpoint=/root                        ${ZFS_ROOT_POOL}/home/root
 zfs create -o canmount=off -o setuid=off  -o exec=off ${ZFS_ROOT_POOL}/var
 zfs create -o com.sun:auto-snapshot=false             ${ZFS_ROOT_POOL}/var/cache
-zfs create                                            ${ZFS_ROOT_POOL}/var/log
+#zfs create                                            ${ZFS_ROOT_POOL}/var/log
 zfs create                                            ${ZFS_ROOT_POOL}/var/spool
 zfs create -o com.sun:auto-snapshot=false -o exec=on  ${ZFS_ROOT_POOL}/var/tmp
-zfs create                                            ${ZFS_ROOT_POOL}/srv
+#zfs create                                            ${ZFS_ROOT_POOL}/srv
 zfs create                                            ${ZFS_ROOT_POOL}/var/games
 zfs create                                            ${ZFS_ROOT_POOL}/var/mail
 zfs create -o mountpoint=/var/lib/docker              ${ZFS_ROOT_POOL}/docker
