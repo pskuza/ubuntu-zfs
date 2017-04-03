@@ -17,8 +17,10 @@ which go || _setup-golang.sh || sudo apt install -y golang golang-go
 which git || sudo apt install -y git
 
 apm install linter
+apm install linter-ui-default
+apm install intentions
+apm install busy-signal
+
 apm install linter-shellcheck
-
 go get -u github.com/mvdan/sh/cmd/shfmt
-
 apm install format-shell
